@@ -20,7 +20,7 @@ const MovieDetails = () => {
     <>
       {movieDls && (
         <div>
-          <a href="#">Go back</a>
+          {/* <a href="#">Go back</a> */}
           <h1>
             {movieDls.title} ({movieDls.release_date.slice(0, 4)})
           </h1>
