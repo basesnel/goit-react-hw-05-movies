@@ -1,5 +1,5 @@
 // import { nanoid } from 'nanoid';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getTrending } from '../api/api-service';
 
@@ -7,6 +7,7 @@ import { getTrending } from '../api/api-service';
 
 const Home = () => {
   const [trending, setTrending] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     getTrending(1).then(trends => {
@@ -21,7 +22,7 @@ const Home = () => {
         {trending.map(trend => {
           return (
             <li key={trend.id}>
-              <Link to={`/movies/${trend.id}`}>
+              <Link to={`/movies/${trend.id}`} state={{ from: location }}>
                 {trend.title} | {trend.vote_average}
               </Link>
             </li>
