@@ -7,10 +7,25 @@ export const Reviews = () => {
   const [movieReviews, setMovieReviews] = useState([]);
 
   useEffect(() => {
-    getMovieReviews(movieId).then(reviews => {
-      console.log(reviews.results);
-      setMovieReviews(reviews.results);
-    });
+    getMovieReviews(movieId)
+      .then(reviews => {
+        return reviews.results;
+      })
+      .then(reviews => {
+        const reviewsCollection = reviews.map(({ id, author, content }) => {
+          const review = {};
+
+          review.id = id;
+          review.author = author;
+          review.content = content;
+
+          return review;
+        });
+        return reviewsCollection;
+      })
+      .then(reviewsCollection => {
+        setMovieReviews(reviewsCollection);
+      });
   }, [movieId]);
 
   return (
