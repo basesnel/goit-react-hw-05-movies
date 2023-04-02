@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 import { getMovieDetails } from '../api/api-service';
 
@@ -8,6 +8,11 @@ const MovieDetails = () => {
 
   const { movieId } = useParams();
   console.log(movieId);
+
+  const location = useLocation();
+
+  const backLinkToLocationRef = useRef(location.state?.from ?? '/movies');
+  console.log(backLinkToLocationRef);
 
   useEffect(() => {
     getMovieDetails(movieId).then(movieData => {
@@ -20,7 +25,7 @@ const MovieDetails = () => {
     <>
       {movieDls && (
         <div>
-          {/* <a href="#">Go back</a> */}
+          <Link to={backLinkToLocationRef.current}>Go back</Link>
           <h1>
             {movieDls.title} ({movieDls.release_date.slice(0, 4)})
           </h1>
