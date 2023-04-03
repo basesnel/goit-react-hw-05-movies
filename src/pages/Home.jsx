@@ -2,6 +2,7 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getTrending } from '../api/api-service';
+import { Container } from './Home.styled';
 
 // const moviesTrending = new MoviesApiService();
 import MoviesList from 'components/MoviesList';
@@ -35,14 +36,14 @@ const Home = () => {
   return (
     <>
       {trending && (
-        <div>
+        <Container>
           <h1>Tranding today</h1>
           <MoviesList
             foundMovies={trending}
             subpath="/movies/"
             location={location}
           />
-        </div>
+        </Container>
       )}
     </>
   );

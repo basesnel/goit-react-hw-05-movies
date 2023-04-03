@@ -1,6 +1,7 @@
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getSearchMovie } from '../api/api-service';
+import { Container } from './Home.styled';
 
 // const findMovies = new MoviesApiService();
 import MoviesList from 'components/MoviesList';
@@ -48,7 +49,7 @@ const Movies = () => {
   };
 
   return (
-    <div>
+    <Container>
       <SearchForm handleSubmit={onHandleSubmit} />
 
       {foundMovies && (
@@ -60,7 +61,7 @@ const Movies = () => {
           />
         </div>
       )}
-    </div>
+    </Container>
   );
 };
 

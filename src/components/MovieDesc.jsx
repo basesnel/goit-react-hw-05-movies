@@ -1,33 +1,45 @@
 import PropTypes from 'prop-types';
+import { Suspense } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { Container, Desc, BackLink } from './MovieDesk.styled';
 
 export default function MovieDesc({ backLink, movieSpec }) {
   return (
-    <div>
-      <Link to={backLink}>Go back</Link>
-      <h1>
-        {movieSpec.title} ({movieSpec.release_date.slice(0, 4)})
-      </h1>
-      <p>User score: {parseInt(movieSpec.vote_average * 10, 10)}%</p>
-      <img
-        src={`https://image.tmdb.org/t/p/w200${movieSpec.poster_path}`}
-        alt={movieSpec.tagline}
-      />
-      <h2>Overview</h2>
-      <p>{movieSpec.overview}</p>
-      <h2>Genres</h2>
-      <p>{movieSpec.genres.map(genre => genre.name).join(', ')}</p>
+    <Container>
+      <BackLink to={backLink}>Go back</BackLink>
+      <Desc>
+        {movieSpec.poster_path && (
+          <img
+            src={`https://image.tmdb.org/t/p/w200${movieSpec.poster_path}`}
+            alt={movieSpec.tagline}
+          />
+        )}
+        <div>
+          <h1>
+            {movieSpec.title} ({movieSpec.release_date.slice(0, 4)})
+          </h1>
+          <p>User score: {parseInt(movieSpec.vote_average * 10, 10)}%</p>
+          <h2>Overview</h2>
+          <p>{movieSpec.overview}</p>
+          <h2>Genres</h2>
+          <p>{movieSpec.genres.map(genre => genre.name).join(', ')}</p>
+        </div>
+      </Desc>
 
-      <ul>
-        <li>
-          <Link to="cast">Cast</Link>
-        </li>
-        <li>
-          <Link to="reviews">Reviews</Link>
-        </li>
-      </ul>
-      <Outlet />
-    </div>
+      <Desc>
+        <ul>
+          <li>
+            <Link to="cast">Cast</Link>
+          </li>
+          <li>
+            <Link to="reviews">Reviews</Link>
+          </li>
+        </ul>
+      </Desc>
+      <Suspense fallback={<div>Loading sub-page...</div>}>
+        <Outlet />
+      </Suspense>
+    </Container>
   );
 }
 
@@ -37,7 +49,7 @@ MovieDesc.propTypes = {
     title: PropTypes.string.isRequired,
     release_date: PropTypes.string.isRequired,
     vote_average: PropTypes.number.isRequired,
-    poster_path: PropTypes.string.isRequired,
+    poster_path: PropTypes.string,
     tagline: PropTypes.string.isRequired,
     overview: PropTypes.string.isRequired,
     genres: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
