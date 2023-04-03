@@ -8,6 +8,7 @@ import {
   List,
   Item,
   MoreDetailLink,
+  Loading,
 } from './MovieDesk.styled';
 
 export default function MovieDesc({ backLink, movieSpec }) {
@@ -43,7 +44,7 @@ export default function MovieDesc({ backLink, movieSpec }) {
           </Item>
         </List>
       </Desc>
-      <Suspense fallback={<div>Loading sub-page...</div>}>
+      <Suspense fallback={<Loading>Loading sub-page...</Loading>}>
         <Outlet />
       </Suspense>
     </Container>

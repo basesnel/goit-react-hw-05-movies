@@ -49,3 +49,15 @@ export const MoreDetailLink = styled(Link)`
     border-bottom: 1px solid #444;
   }
 `;
+
+export const Loading = styled.div`
+  width: 150px;
+  height: 50px;
+  margin: 16px auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #808080;
+  border-radius: 5px;
+  color: #808080;
+`;
