@@ -2,36 +2,45 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getMovieReviews } from 'api/api-service';
 import { List, Item, Title, Text } from './Reviews.styled';
+import Loader from 'components/Loader/Loader';
 
 const Reviews = () => {
   const { movieId } = useParams();
   const [movieReviews, setMovieReviews] = useState([]);
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    getMovieReviews(movieId)
-      .then(reviews => {
-        return reviews.results;
-      })
-      .then(reviews => {
-        const reviewsCollection = reviews.map(({ id, author, content }) => {
-          const review = {};
+    setPending(true);
 
-          review.id = id;
-          review.author = author;
-          review.content = content;
+    setTimeout(() => {
+      getMovieReviews(movieId)
+        .then(reviews => {
+          return reviews.results;
+        })
+        .then(reviews => {
+          const reviewsCollection = reviews.map(({ id, author, content }) => {
+            const review = {};
 
-          return review;
-        });
-        return reviewsCollection;
-      })
-      .then(reviewsCollection => {
-        setMovieReviews(reviewsCollection);
-      });
+            review.id = id;
+            review.author = author;
+            review.content = content;
+
+            return review;
+          });
+          return reviewsCollection;
+        })
+        .then(reviewsCollection => {
+          setMovieReviews(reviewsCollection);
+        })
+        .finally(setPending(false));
+    }, 500);
   }, [movieId]);
 
   return (
     <>
-      {movieReviews.length ? (
+      {pending ? (
+        <Loader searchQuery="Search for trending movies..." />
+      ) : movieReviews.length ? (
         <>
           <h2>Reviews detail content: {movieId}</h2>
           <List>

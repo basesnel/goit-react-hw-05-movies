@@ -29,6 +29,7 @@ export const BackLink = styled(Link)`
 `;
 
 export const List = styled.ul`
+  margin: 0;
   padding: 8px;
   list-style: none;
 `;

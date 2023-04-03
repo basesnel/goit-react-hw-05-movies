@@ -5,9 +5,11 @@ import { Container } from './Movies.styled';
 
 import MoviesList from 'components/MoviesList/MoviesList';
 import SearchForm from 'components/SearchForm/SearchForm';
+import Loader from 'components/Loader/Loader';
 
 const Movies = () => {
   const [foundMovies, setFoundMovies] = useState([]);
+  const [pending, setPending] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const location = useLocation();
@@ -17,24 +19,28 @@ const Movies = () => {
   useEffect(() => {
     if (query === '') return;
 
-    getSearchMovie(query)
-      .then(found => {
-        const moviesCollection = found.results.map(
-          ({ id, title, vote_average }) => {
-            const item = {};
+    setPending(true);
+    setTimeout(() => {
+      getSearchMovie(query)
+        .then(found => {
+          const moviesCollection = found.results.map(
+            ({ id, title, vote_average }) => {
+              const item = {};
 
-            item.id = id;
-            item.title = title;
-            item.vote_average = vote_average;
+              item.id = id;
+              item.title = title;
+              item.vote_average = vote_average;
 
-            return item;
-          }
-        );
-        return moviesCollection;
-      })
-      .then(moviesCollection => {
-        setFoundMovies(moviesCollection);
-      });
+              return item;
+            }
+          );
+          return moviesCollection;
+        })
+        .then(moviesCollection => {
+          setFoundMovies(moviesCollection);
+        })
+        .finally(setPending(false));
+    }, 500);
   }, [query]);
 
   const onHandleSubmit = event => {
@@ -49,14 +55,18 @@ const Movies = () => {
     <Container>
       <SearchForm handleSubmit={onHandleSubmit} />
 
-      {foundMovies && (
-        <div>
-          <MoviesList
-            foundMovies={foundMovies}
-            subpath=""
-            location={location}
-          />
-        </div>
+      {pending ? (
+        <Loader searchQuery={`Search movies on query "${query}"...`} />
+      ) : (
+        foundMovies && (
+          <div>
+            <MoviesList
+              foundMovies={foundMovies}
+              subpath=""
+              location={location}
+            />
+          </div>
+        )
       )}
     </Container>
   );

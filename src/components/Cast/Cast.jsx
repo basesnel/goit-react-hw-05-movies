@@ -2,38 +2,47 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getMovieCredits } from 'api/api-service';
 import { List, Item, Person, Attribute, Blank } from './Cast.styled';
+import Loader from 'components/Loader/Loader';
 
 const Cast = () => {
   const { movieId } = useParams();
   const [movieCast, setMovieCast] = useState([]);
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    getMovieCredits(movieId)
-      .then(credit => {
-        return credit.cast;
-      })
-      .then(cast => {
-        const actorsCollection = cast.map(
-          ({ id, profile_path, name, character }) => {
-            const actor = {};
+    setPending(true);
 
-            actor.id = id;
-            actor.profile_path = profile_path;
-            actor.name = name;
-            actor.character = character;
+    setTimeout(() => {
+      getMovieCredits(movieId)
+        .then(credit => {
+          return credit.cast;
+        })
+        .then(cast => {
+          const actorsCollection = cast.map(
+            ({ id, profile_path, name, character }) => {
+              const actor = {};
 
-            return actor;
-          }
-        );
-        return actorsCollection;
-      })
-      .then(actorsCollection => {
-        setMovieCast(actorsCollection);
-      });
+              actor.id = id;
+              actor.profile_path = profile_path;
+              actor.name = name;
+              actor.character = character;
+
+              return actor;
+            }
+          );
+          return actorsCollection;
+        })
+        .then(actorsCollection => {
+          setMovieCast(actorsCollection);
+        })
+        .finally(setPending(false));
+    }, 500);
   }, [movieId]);
   return (
     <>
-      {movieCast.length ? (
+      {pending ? (
+        <Loader searchQuery="Search for trending movies..." />
+      ) : movieCast.length ? (
         <>
           <h2>Cast detail content: {movieId}</h2>
           <List>
