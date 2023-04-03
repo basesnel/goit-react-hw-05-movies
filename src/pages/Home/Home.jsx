@@ -1,11 +1,9 @@
-// import { nanoid } from 'nanoid';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getTrending } from '../api/api-service';
+import { getTrending } from '../../api/api-service';
 import { Container } from './Home.styled';
 
-// const moviesTrending = new MoviesApiService();
-import MoviesList from 'components/MoviesList';
+import MoviesList from 'components/MoviesList/MoviesList';
 
 const Home = () => {
   const [trending, setTrending] = useState([]);
@@ -14,18 +12,17 @@ const Home = () => {
   useEffect(() => {
     getTrending(1)
       .then(trends => {
-        return trends.results;
-      })
-      .then(movies => {
-        const moviesCollection = movies.map(({ id, title, vote_average }) => {
-          const item = {};
+        const moviesCollection = trends.results.map(
+          ({ id, title, vote_average }) => {
+            const item = {};
 
-          item.id = id;
-          item.title = title;
-          item.vote_average = vote_average;
+            item.id = id;
+            item.title = title;
+            item.vote_average = vote_average;
 
-          return item;
-        });
+            return item;
+          }
+        );
         return moviesCollection;
       })
       .then(moviesCollection => {

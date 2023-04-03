@@ -1,14 +1,12 @@
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getSearchMovie } from '../api/api-service';
-import { Container } from './Home.styled';
+import { getSearchMovie } from '../../api/api-service';
+import { Container } from './Movies.styled';
 
-// const findMovies = new MoviesApiService();
-import MoviesList from 'components/MoviesList';
-import SearchForm from 'components/SearchForm';
+import MoviesList from 'components/MoviesList/MoviesList';
+import SearchForm from 'components/SearchForm/SearchForm';
 
 const Movies = () => {
-  // const [searchQuery, setSearchQuery] = useState('');
   const [foundMovies, setFoundMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,18 +19,17 @@ const Movies = () => {
 
     getSearchMovie(query)
       .then(found => {
-        return found.results;
-      })
-      .then(movies => {
-        const moviesCollection = movies.map(({ id, title, vote_average }) => {
-          const item = {};
+        const moviesCollection = found.results.map(
+          ({ id, title, vote_average }) => {
+            const item = {};
 
-          item.id = id;
-          item.title = title;
-          item.vote_average = vote_average;
+            item.id = id;
+            item.title = title;
+            item.vote_average = vote_average;
 
-          return item;
-        });
+            return item;
+          }
+        );
         return moviesCollection;
       })
       .then(moviesCollection => {

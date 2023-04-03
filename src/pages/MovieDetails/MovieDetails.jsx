@@ -1,8 +1,9 @@
-import MovieDesc from 'components/MovieDesc';
+import MovieDesc from 'components/MovieDesc/MovieDesc';
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { Container } from './MovieDetails.styled';
 
-import { getMovieDetails } from '../api/api-service';
+import { getMovieDetails } from '../../api/api-service';
 
 const MovieDetails = () => {
   const [movieData, setMovieData] = useState(null);
@@ -12,13 +13,9 @@ const MovieDetails = () => {
   const location = useLocation();
 
   const backLinkToLocationRef = useRef(location.state?.from ?? '/movies');
-  // console.log(backLinkToLocationRef);
 
   useEffect(() => {
     getMovieDetails(movieId)
-      .then(movie => {
-        return movie;
-      })
       .then(movieData => {
         const movieRes = {
           title: movieData.title,
@@ -37,14 +34,14 @@ const MovieDetails = () => {
   }, [movieId]);
 
   return (
-    <>
+    <Container>
       {movieData && (
         <MovieDesc
           backLink={backLinkToLocationRef.current}
           movieSpec={movieData}
         />
       )}
-    </>
+    </Container>
   );
 };
 

@@ -22,6 +22,7 @@ export const Header = styled.header`
 
   nav > ul {
     display: flex;
+    gap: 10px;
     padding-left: 0;
     list-style: none;
   }
@@ -33,6 +34,12 @@ export const Link = styled(NavLink)`
   text-decoration: none;
   color: black;
   font-weight: 500;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    color: white;
+    background-color: orangered;
+  }
 
   &.active {
     color: white;

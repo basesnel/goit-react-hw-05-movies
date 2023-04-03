@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getMovieCredits } from 'api/api-service';
+import { List, Item, Person, Attribute, Blank } from './Cast.styled';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -35,23 +36,26 @@ const Cast = () => {
       {movieCast.length ? (
         <>
           <h2>Cast detail content: {movieId}</h2>
-          <ul>
+          <List>
             {movieCast.map(actor => {
               return (
-                <li key={actor.id}>
-                  <p>
-                    {actor.profile_path && (
-                      <img
-                        src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
-                        alt={actor.name}
-                      />
-                    )}
-                    {actor.name} | {actor.character}
-                  </p>
-                </li>
+                <Item key={actor.id}>
+                  {actor.profile_path ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
+                      alt={actor.name}
+                    />
+                  ) : (
+                    <Blank>No foto</Blank>
+                  )}
+                  <Attribute>Person:</Attribute>
+                  <Person>{actor.name}</Person>
+                  <Attribute>Character:</Attribute>
+                  <Person>{actor.character}</Person>
+                </Item>
               );
             })}
-          </ul>
+          </List>
         </>
       ) : (
         <p>No cast data for the movie.</p>

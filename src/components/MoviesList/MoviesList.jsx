@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { List, Item, MovieLink } from './MoviesList.styled';
 
 export default function MoviesList({ foundMovies, subpath, location }) {
   return (
-    <ul>
+    <List>
       {foundMovies.map(movie => (
-        <li key={movie.id}>
-          <Link to={`${subpath}${movie.id}`} state={{ from: location }}>
+        <Item key={movie.id}>
+          <MovieLink to={`${subpath}${movie.id}`} state={{ from: location }}>
             {movie.title} | {movie.vote_average}
-          </Link>
-        </li>
+          </MovieLink>
+        </Item>
       ))}
-    </ul>
+    </List>
   );
 }
 

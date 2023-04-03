@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import { Suspense } from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import { Container, Desc, BackLink } from './MovieDesk.styled';
+import { Outlet } from 'react-router-dom';
+import {
+  Container,
+  Desc,
+  BackLink,
+  List,
+  Item,
+  MoreDetailLink,
+} from './MovieDesk.styled';
 
 export default function MovieDesc({ backLink, movieSpec }) {
   return (
@@ -27,14 +34,14 @@ export default function MovieDesc({ backLink, movieSpec }) {
       </Desc>
 
       <Desc>
-        <ul>
-          <li>
-            <Link to="cast">Cast</Link>
-          </li>
-          <li>
-            <Link to="reviews">Reviews</Link>
-          </li>
-        </ul>
+        <List>
+          <Item>
+            <MoreDetailLink to="cast">Cast</MoreDetailLink>
+          </Item>
+          <Item>
+            <MoreDetailLink to="reviews">Reviews</MoreDetailLink>
+          </Item>
+        </List>
       </Desc>
       <Suspense fallback={<div>Loading sub-page...</div>}>
         <Outlet />
@@ -44,7 +51,7 @@ export default function MovieDesc({ backLink, movieSpec }) {
 }
 
 MovieDesc.propTypes = {
-  backLink: PropTypes.object.isRequired,
+  backLink: PropTypes.any.isRequired,
   movieSpec: PropTypes.shape({
     title: PropTypes.string.isRequired,
     release_date: PropTypes.string.isRequired,

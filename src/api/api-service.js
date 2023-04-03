@@ -1,5 +1,4 @@
 const apiKey = '5a20241834eb9a6674dc92f9938aafbf';
-// page = 1;
 
 export const getTrending = page => {
   return fetch(
