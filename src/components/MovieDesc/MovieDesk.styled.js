@@ -10,6 +10,7 @@ export const Desc = styled.div`
   gap: 10px;
   align-items: center;
   border-bottom: 1px solid #c0c0c0;
+  padding: 16px 0;
 `;
 
 export const BackLink = styled(Link)`
